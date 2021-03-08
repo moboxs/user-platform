@@ -24,6 +24,7 @@ public class ComponentContextInitializerListener implements ServletContextListen
     public void contextDestroyed(ServletContextEvent sce) {
         ComponentContext componentContext = ComponentContext.getInstance();
         componentContext.destroy();
+
     }
 
 }
