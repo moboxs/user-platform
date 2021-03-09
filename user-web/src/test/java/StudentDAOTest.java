@@ -1,15 +1,16 @@
-import com.github.moboxs.firstweb.dao.JpaUtils;
-import com.github.moboxs.firstweb.entity.Student;
-import org.hibernate.jpa.criteria.CriteriaBuilderImpl;
-import org.hibernate.jpa.criteria.CriteriaQueryImpl;
+import com.github.moboxs.projects.user.domain.Student;
+import com.github.moboxs.projects.user.sql.JpaUtils;
 import org.junit.Test;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import java.util.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDAOTest {
 

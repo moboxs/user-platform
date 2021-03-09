@@ -34,6 +34,10 @@ public class ComponentContext {
         return (ComponentContext)servletContext.getAttribute(CONTEXT_NAME);
     }
 
+    public <C> C getComponent(String name) {
+        return (C) componentMap.get(name);
+    }
+
     public void init(ServletContext servletContext) throws RuntimeException {
         ComponentContext.servletContext = servletContext;
         servletContext.setAttribute(CONTEXT_NAME, this);

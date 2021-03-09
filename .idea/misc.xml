@@ -8,6 +8,8 @@
       <list>
         <option value="$PROJECT_DIR$/firstweb/pom.xml" />
         <option value="$PROJECT_DIR$/user-web/pom.xml" />
+        <option value="$PROJECT_DIR$/my-web-mvc/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
