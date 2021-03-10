@@ -38,7 +38,7 @@
 			  factory="org.apache.naming.factory.BeanFactory" />
 
 	<Resource name="bean/Validator" auth="Container"
-			  type="com.github.moboxs.projects.user.validator.DelegatingValidator"
+			  type="com.github.moboxs.projects.user.validator.bean.validation.DelegatingValidator"
 			  factory="org.apache.naming.factory.BeanFactory" />
 
 	<Resource name="bean/UserService" auth="Container"

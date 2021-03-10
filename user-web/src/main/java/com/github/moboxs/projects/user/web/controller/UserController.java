@@ -7,8 +7,11 @@ import com.github.moboxs.projects.user.service.UserService;
 import com.github.moboxs.projects.user.service.UserServiceImpl;
 import com.github.moboxs.web.mvc.controller.PageController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.Validator;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,9 +24,12 @@ import javax.ws.rs.Path;
 @Path("/user")
 public class UserController implements PageController {
 
+    @Resource(name = "bean/Validator")
+    private Validator validator;
+
     @POST
     @Path(value = "/login")
-    public String login(HttpServletRequest request, HttpServletResponse response) throws Throwable{
+    public String login(@Valid HttpServletRequest request, HttpServletResponse response) throws Throwable{
         User user = new User();
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("password"));

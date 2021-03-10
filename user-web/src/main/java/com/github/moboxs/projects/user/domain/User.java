@@ -1,6 +1,7 @@
 package com.github.moboxs.projects.user.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Entity
@@ -15,9 +16,12 @@ public class User implements Serializable {
     private String name;
 
     @Column
+    @Max(32)
+    @Min(6)
     private String password;
 
     @Column
+    @Email()
     private String email;
 
     @Column
