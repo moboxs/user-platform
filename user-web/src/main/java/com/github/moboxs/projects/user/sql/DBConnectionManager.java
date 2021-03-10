@@ -1,7 +1,6 @@
 package com.github.moboxs.projects.user.sql;
 
 
-import com.github.moboxs.context.ComponentContext;
 import com.github.moboxs.projects.user.domain.User;
 
 import javax.annotation.Resource;
@@ -27,29 +26,11 @@ public class DBConnectionManager {
     @Resource(name = "bean/EntityManager")
     private EntityManager entityManager;
 
-    public Connection getConnection() {
-        ComponentContext context = ComponentContext.getInstance();
-        // 依赖查找
-        DataSource dataSource = context.getComponent("jdbc/UserPlatformDB");
-        Connection connection = null;
-        try {
-            connection = dataSource.getConnection();
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-        if (connection != null) {
-            logger.log(Level.INFO, "获取 JNDI 数据库连接成功！");
-        }
-        return connection;
-    }
-
-    public EntityManager getEntityManager() {
-        logger.info("当前 EntityManager 实现类：" + entityManager.getClass().getName());
-        return entityManager;
-    }
-
+//
 //    public Connection getConnection() {
+//        ComponentContext context = ComponentContext.getInstance();
 //        // 依赖查找
+//        DataSource dataSource = context.getComponent("jdbc/UserPlatformDB");
 //        Connection connection = null;
 //        try {
 //            connection = dataSource.getConnection();
@@ -61,6 +42,25 @@ public class DBConnectionManager {
 //        }
 //        return connection;
 //    }
+
+    public EntityManager getEntityManager() {
+        logger.info("当前 EntityManager 实现类：" + entityManager.getClass().getName());
+        return entityManager;
+    }
+
+    public Connection getConnection() {
+        // 依赖查找
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        if (connection != null) {
+            logger.log(Level.INFO, "获取 JNDI 数据库连接成功！");
+        }
+        return connection;
+    }
 
     private Connection connection;
 

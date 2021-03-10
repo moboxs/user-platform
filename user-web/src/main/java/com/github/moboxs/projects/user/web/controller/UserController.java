@@ -1,5 +1,6 @@
 package com.github.moboxs.projects.user.web.controller;
 
+import com.github.moboxs.context.ComponentContext;
 import com.github.moboxs.projects.user.domain.User;
 import com.github.moboxs.projects.user.respository.DatabaseUserRepository;
 import com.github.moboxs.projects.user.service.UserService;
@@ -20,14 +21,13 @@ import javax.ws.rs.Path;
 @Path("/user")
 public class UserController implements PageController {
 
-    UserService userService = new UserServiceImpl();
-
     @POST
     @Path(value = "/login")
     public String login(HttpServletRequest request, HttpServletResponse response) throws Throwable{
         User user = new User();
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("password"));
+        UserService userService = ComponentContext.getInstance().getComponent("bean/UserService");
         userService.register(user);
         return "/success.jsp";
     }

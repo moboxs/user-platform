@@ -1,11 +1,26 @@
 package com.github.moboxs.projects.user.domain;
 
-public class User {
+import javax.persistence.*;
+import java.io.Serializable;
 
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
+
+    @Column
     private String password;
+
+    @Column
     private String email;
+
+    @Column
     private String phoneNumber;
 
     public Long getId() {
