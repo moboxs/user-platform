@@ -30,6 +30,7 @@ public class DelegatingEntityManager implements EntityManager {
     public void init() {
         EntityManagerFactory entityManagerFactory =
                 Persistence.createEntityManagerFactory(persistenceUnitName, loadProperties(propertiesLocation));
+        this.entityManager = entityManagerFactory.createEntityManager();
     }
 
     private Map loadProperties(String propertiesLocation) {

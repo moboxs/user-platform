@@ -9,6 +9,7 @@ import com.github.moboxs.web.mvc.controller.PageController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 /**
@@ -21,15 +22,20 @@ public class UserController implements PageController {
 
     UserService userService = new UserServiceImpl();
 
-    @GET
+    @POST
     @Path(value = "/login")
     public String login(HttpServletRequest request, HttpServletResponse response) throws Throwable{
         User user = new User();
-        user.setName(request.getParameter("name"));
+        user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("password"));
         userService.register(user);
-
         return "/success.jsp";
+    }
+
+    @GET
+    @Path("/register")
+    public String register() throws Throwable {
+        return "login-form.jsp";
     }
 
     @Override

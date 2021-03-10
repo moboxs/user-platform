@@ -1,8 +1,12 @@
 package com.github.moboxs.projects.user.sql;
 
 
+import com.github.moboxs.context.ComponentContext;
 import com.github.moboxs.projects.user.domain.User;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.sql.DataSource;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -10,27 +14,73 @@ import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBConnectionManager {
 
-    private Connection connection;
+    private final Logger logger = Logger.getLogger(DBConnectionManager.class.getName());
+
+    @Resource(name = "jdbc/UserPlatformDB")
+    private DataSource dataSource;
+
+    @Resource(name = "bean/EntityManager")
+    private EntityManager entityManager;
 
     public Connection getConnection() {
+        ComponentContext context = ComponentContext.getInstance();
+        // 依赖查找
+        DataSource dataSource = context.getComponent("jdbc/UserPlatformDB");
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        if (connection != null) {
+            logger.log(Level.INFO, "获取 JNDI 数据库连接成功！");
+        }
         return connection;
     }
+
+    public EntityManager getEntityManager() {
+        logger.info("当前 EntityManager 实现类：" + entityManager.getClass().getName());
+        return entityManager;
+    }
+
+//    public Connection getConnection() {
+//        // 依赖查找
+//        Connection connection = null;
+//        try {
+//            connection = dataSource.getConnection();
+//        } catch (SQLException e) {
+//            logger.log(Level.SEVERE, e.getMessage());
+//        }
+//        if (connection != null) {
+//            logger.log(Level.INFO, "获取 JNDI 数据库连接成功！");
+//        }
+//        return connection;
+//    }
+
+    private Connection connection;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
+//    public Connection getConnection() {
+//        return this.connection;
+//    }
+
+
     public void releaseConnection() {
-        if (this.connection != null) {
-            try {
-                this.connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
+//        if (this.connection != null) {
+//            try {
+//                this.connection.close();
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
     }
 
     public static final String DROP_USERS_TABLE_DDL_SQL = "DROP TABLE users";

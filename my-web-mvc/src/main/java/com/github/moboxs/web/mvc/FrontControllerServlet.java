@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
 
 import static java.util.Arrays.asList;
@@ -49,20 +50,22 @@ public class FrontControllerServlet extends HttpServlet {
         for (Controller controller : ServiceLoader.load(Controller.class)) {
             Class<?> controllerClass = controller.getClass();
             Path pathFromClass = controllerClass.getAnnotation(Path.class);
-            String requestPath = pathFromClass.value();
+            String classPath = pathFromClass.value();
             Method[] publicMethods = controllerClass.getMethods();
             //处理方法支持的HTTP方法集合
             for (Method method : publicMethods) {
                 Set<String> supportedHttpMethods = findSupportedHttpMethods(method);
+                Parameter[] parameters = method.getParameters();
                 Path pathFromMethod = method.getAnnotation(Path.class);
                 if (pathFromMethod != null) {
-                    requestPath += pathFromMethod.value();
-                    handlerMethodInfoMapping.put(requestPath, new HandlerMethodInfo(requestPath, method, supportedHttpMethods));
+                    String requestPath = classPath + pathFromMethod.value();
+                    handlerMethodInfoMapping.put(requestPath, new HandlerMethodInfo(requestPath, method, supportedHttpMethods, parameters));
+                    controllerMapping.put(requestPath, controller);
                 }
             }
-
-            controllerMapping.put(requestPath, controller);
         }
+
+        System.out.println("init done");
     }
 
     /**
@@ -117,15 +120,31 @@ public class FrontControllerServlet extends HttpServlet {
                     }
 
                     if (controller instanceof PageController) {
-                        PageController pageController = PageController.class.cast(controller);
-                        String viewPath = pageController.execute(request, response);
-
-                        ServletContext servletContext = request.getServletContext();
-                        if (!viewPath.startsWith("/")) {
-                            viewPath = "/" + viewPath;
+                        Object ret = null;
+                        if (handlerMethodInfo.getHandleMethod().getParameterCount() > 0) {
+                            ret = handlerMethodInfo.getHandleMethod().invoke(controller, request, response);
+                        } else {
+                            ret = handlerMethodInfo.getHandleMethod().invoke(controller);
                         }
-                        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(viewPath);
-                        requestDispatcher.forward(request, response);
+
+                        if (ret instanceof String) {
+                            String viewPath = (String) ret;
+                            ServletContext servletContext = request.getServletContext();
+                            if (!viewPath.startsWith("/")) {
+                                viewPath = "/" + viewPath;
+                            }
+                            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(viewPath);
+                            requestDispatcher.forward(request, response);
+                        }
+//                        PageController pageController = PageController.class.cast(controller);
+//                        String viewPath = pageController.execute(request, response);
+//
+//                        ServletContext servletContext = request.getServletContext();
+//                        if (!viewPath.startsWith("/")) {
+//                            viewPath = "/" + viewPath;
+//                        }
+//                        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(viewPath);
+//                        requestDispatcher.forward(request, response);
                         return;
                     } else if (controller instanceof RestController) {
                         //@// TODO: 2021/3/9

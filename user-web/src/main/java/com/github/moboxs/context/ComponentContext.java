@@ -62,6 +62,7 @@ public class ComponentContext {
         Context context = null;
         try {
             context = new InitialContext();
+            this.envContext = (Context) context.lookup(COMPONENT_ENV_CONTEXT_NAME);
         } catch (NamingException e) {
             throw new RuntimeException(e);
         } finally {
