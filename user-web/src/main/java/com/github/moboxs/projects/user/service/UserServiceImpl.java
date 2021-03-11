@@ -1,14 +1,12 @@
 package com.github.moboxs.projects.user.service;
 
 import com.github.moboxs.projects.user.domain.User;
-import com.github.moboxs.projects.user.respository.DatabaseUserRepository;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserServiceImpl implements UserService {
@@ -20,7 +18,6 @@ public class UserServiceImpl implements UserService {
     @Resource(name = "bean/EntityManager")
     private EntityManager entityManager;
 
-
     @Override
     public boolean register(User user) throws Exception {
 
@@ -31,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
         transaction.begin();
         try {
+
             entityManager.persist(user);
 
             List<User> resultList = entityManager.createQuery("from User", User.class).getResultList();
@@ -38,6 +36,7 @@ public class UserServiceImpl implements UserService {
             transaction.commit();
         } catch (Exception e ) {
             transaction.rollback();
+            logger.log(Level.SEVERE, e.getMessage());
             throw new RuntimeException(e);
         } finally {
             System.out.println("transactional finally");
