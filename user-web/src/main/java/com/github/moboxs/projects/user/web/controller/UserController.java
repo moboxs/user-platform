@@ -24,12 +24,12 @@ import javax.ws.rs.Path;
 @Path("/user")
 public class UserController implements PageController {
 
-    @Resource(name = "bean/Validator")
-    private Validator validator;
+//    @Resource(name = "bean/Validator")
+//    private Validator validator;
 
     @POST
     @Path(value = "/login")
-    public String login(@Valid HttpServletRequest request, HttpServletResponse response) throws Throwable{
+    public String login(HttpServletRequest request, HttpServletResponse response) throws Throwable{
         User user = new User();
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("password"));

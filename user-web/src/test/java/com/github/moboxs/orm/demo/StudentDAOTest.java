@@ -1,3 +1,5 @@
+package com.github.moboxs.orm.demo;
+
 import com.github.moboxs.projects.user.domain.Student;
 import com.github.moboxs.projects.user.sql.JpaUtils;
 import org.junit.Test;

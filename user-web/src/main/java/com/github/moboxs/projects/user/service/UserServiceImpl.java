@@ -27,20 +27,22 @@ public class UserServiceImpl implements UserService {
         EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
-        try {
+//        try {
 
             entityManager.persist(user);
 
             List<User> resultList = entityManager.createQuery("from User", User.class).getResultList();
             resultList.forEach(System.out::println);
             transaction.commit();
-        } catch (Exception e ) {
-            transaction.rollback();
-            logger.log(Level.SEVERE, e.getMessage());
-            throw new RuntimeException(e);
-        } finally {
-            System.out.println("transactional finally");
-        }
+//        } catch (Exception e ) {
+//            transaction.rollback();
+//            logger.log(Level.WARNING, e.getMessage());
+//            throw e;
+//        } finally {
+//            System.out.println("transactional finally");
+//        }
+
+
 
         //boolean flag = databaseUserRepository.save(user);
         return true;
