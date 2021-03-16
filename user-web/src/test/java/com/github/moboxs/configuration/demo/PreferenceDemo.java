@@ -1,5 +1,6 @@
 package com.github.moboxs.configuration.demo;
 
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 /**
@@ -11,9 +12,11 @@ import java.util.prefs.Preferences;
  *
  */
 public class PreferenceDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BackingStoreException {
         Preferences userPreferences = Preferences.userRoot();
         userPreferences.put("prefer-key", "value111");
-
+        userPreferences.flush();
+        String str = userPreferences.get("prefer-key", null);
+        System.out.println(str);
     }
 }
