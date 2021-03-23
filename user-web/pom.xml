@@ -12,16 +12,15 @@
     </parent>
 
 
-    <artifactId>firstweb</artifactId>
+    <artifactId>user-web</artifactId>
 
-    <name>firstweb</name>
+    <name>user-web</name>
     <packaging>war</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.github.moboxs</groupId>
             <artifactId>my-web-mvc</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- Servlet API -->
         <dependency>
@@ -80,10 +79,14 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.11</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.moboxs</groupId>
+            <artifactId>my-configuration</artifactId>
         </dependency>
 
     </dependencies>

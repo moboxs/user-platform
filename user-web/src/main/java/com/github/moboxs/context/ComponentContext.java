@@ -2,7 +2,6 @@ package com.github.moboxs.context;
 
 import com.github.moboxs.function.ThrowableAction;
 import com.github.moboxs.function.ThrowableFunction;
-import sun.plugin.viewer.LifeCycleManager;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

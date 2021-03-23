@@ -6,11 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="my-dependency-injection" />
         <module name="my-web-mvc" />
+        <module name="my-configuration" />
         <module name="user-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
+      <module name="my-configuration" target="8" />
+      <module name="my-dependency-injection" target="8" />
       <module name="my-web-mvc" target="8" />
       <module name="user-platform" target="8" />
       <module name="user-web" target="8" />
